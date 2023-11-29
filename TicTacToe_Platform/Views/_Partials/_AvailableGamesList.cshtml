@@ -7,17 +7,17 @@
 <div class="available_games_list">
     @foreach (var game in Model.AvailableGames)
     {
-        if(game.CreatorId.Equals(Model.User.Id))
+        if(game.Value.Game.CreatorId.Equals(Model.User.Id))
             continue;
         
         <div class="available_game_wrapper">
-            <div class="game_name available_game_elem">@game.GameName</div>
-            @if (!string.IsNullOrEmpty(game.GamePassword))
+            <div class="game_name available_game_elem">@game.Value.Game.GameName</div>
+            @if (!string.IsNullOrEmpty(game.Value.Game.GamePassword))
             {
-                <label class="available_game_elem" for="game_password_@Html.Raw(game.Id)">Enter game password:</label>
-                <input type="password" class="game_password available_game_elem" id="game_password_@Html.Raw(game.Id)"/>
+                <label class="available_game_elem" for="game_password_@Html.Raw(game.Value.Game.Id)">Enter game password:</label>
+                <input type="password" class="game_password available_game_elem" id="game_password_@Html.Raw(game.Value.Game.Id)"/>
             }
-            <button havePassword="@Html.Raw(string.IsNullOrEmpty(game.GamePassword) ? "false" : "true")" gameId="@Html.Raw(game.Id)" id="join_@Html.Raw(game.Id)" class="reg_button join_button available_game_elem">Join</button>
+            <button havePassword="@Html.Raw(string.IsNullOrEmpty(game.Value.Game.GamePassword) ? "false" : "true")" gameId="@Html.Raw(game.Value.Game.Id)" id="join_@Html.Raw(game.Value.Game.Id)" class="reg_button join_button available_game_elem">Join</button>
         </div>
     }
     <a href="" id="hidden_create_join_game_elem" style="display: none" target="_blank"></a>

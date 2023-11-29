@@ -298,4 +298,23 @@ public class GamesUtility
             throw;
         }
     }
+
+    public void RemoveGame(string gameId)
+    {
+        try
+        {
+            var cmd = $@"
+            DELETE FROM Games WHERE Id = '{gameId}';
+            DELETE FROM GamesTurns WHERE GameId = '{gameId}';
+            DELETE FROM UsersGamesInfo WHERE GameId = '{gameId}';";
+
+            var result = _gameSessionConnection.Execute(cmd);
+        }
+        catch (Exception e)
+        {
+            //todo logger
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

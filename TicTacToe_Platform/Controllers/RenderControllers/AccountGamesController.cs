@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe_Platform.Helpers;
+using TicTacToe_Platform.Models.Games;
 using TicTacToe_Platform.Views.Pages;
 
 namespace TicTacToe_Platform.Controllers.RenderControllers;
@@ -10,11 +12,13 @@ public class AccountGamesController : Controller
 {
     private readonly GamesUtility _gamesUtility;
     private readonly IdentityUtility _identityUtility;
+    private readonly ConcurrentDictionary<string, GameSession> _gameSessions;
 
-    public AccountGamesController(GamesUtility gamesUtility, IdentityUtility identityUtility)
+    public AccountGamesController(GamesUtility gamesUtility, IdentityUtility identityUtility, ConcurrentDictionary<string, GameSession> gameSessions)
     {
         _gamesUtility = gamesUtility;
         _identityUtility = identityUtility;
+        _gameSessions = gameSessions;
     }
     
     [HttpGet("Games")]
@@ -25,7 +29,7 @@ public class AccountGamesController : Controller
         {
             IsGames = HttpContext.Request.Path.Value.Contains("games", StringComparison.OrdinalIgnoreCase),
             UserPlayedGames = _gamesUtility.GetUserPlayedGames(_identityUtility.GetCurrentUser(HttpContext)!.Id),
-            AvailableGames = _gamesUtility.GetAvailableGames(),
+            AvailableGames = _gameSessions,
             User = _identityUtility.GetCurrentUser(HttpContext)
         };
         

@@ -29,12 +29,20 @@ public class GamesController : Controller
         {
             if (_gameSessions.TryGetValue(game.Id, out var gameSession))
             {
-                if (gameSession.Game.UserGameInfos.Count >= 2)
+                var user = _identityUtility.GetCurrentUser(HttpContext);
+
+                if (_gameSessions.Any(x =>
+                        x.Value.Game.UserGameInfos.FirstOrDefault(x => x.UserId.Equals(user.Id)) is not null &&
+                        !x.Value.Game.Id.Equals(gameSession.Game.Id)))
+                {
+                    return BadRequest($"You are already in game {gameSession.Game.Id}");
+                }
+                
+                if (gameSession.Game.UserGameInfos.Count == 2)
                 {
                     return BadRequest("Game session is full");
                 }
 
-                var user = _identityUtility.GetCurrentUser(HttpContext);
                 
                 ViewBag.GameId = gameId;
                 ViewBag.UserId = user.Id;
@@ -46,7 +54,7 @@ public class GamesController : Controller
 
         if (game is null)
         {
-            return BadRequest("Incorrect game access data");
+            return BadRequest("Incorrect game access data or game isn't existing");
         }
 
         switch (game.GameStatus)

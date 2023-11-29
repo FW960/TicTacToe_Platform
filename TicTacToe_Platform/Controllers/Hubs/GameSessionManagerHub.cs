@@ -109,6 +109,19 @@ public class GameSessionManagerHub : Hub
 
             gameSession.Game.GameStatus = GameStatus.PlayerDisconnected;
 
+            if (gameSession.Game.UserGameInfos.Count == 1)
+            {
+                _gamesUtility.RemoveGame(gameSession.Game.Id);
+                await base.OnDisconnectedAsync(exception);
+                await group.SendAsync("HandleGameSessionResponse", new GameSessionResponseR
+                {
+                    TurnResult = TurnResult.PlayerDisconnected,
+                    X = -1,
+                    Y = -1
+                });
+                return;
+            }
+            
             foreach (var userGameInfo in gameSession.Game.UserGameInfos)
             {
                 userGameInfo.UserGameResult = userGameInfo.UserId.Equals(userId)

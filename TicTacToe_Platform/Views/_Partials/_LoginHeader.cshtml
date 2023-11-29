@@ -1,0 +1,11 @@
+﻿@model TicTacToe_Platform.Views.Pages.SignUpLoginModel
+
+@{
+}   
+<div class="login_signup_header header">
+    <div class="header_buttons_wrapper">
+        <div class="header_login_button @Html.Raw(Model.IsLogin ? "active_menu" : "")" id="login_button_form">Login</div>
+        <hr class="header_buttons_divider"/>
+        <div class="header_login_button @Html.Raw(Model.IsLogin ? "" : "active_menu")" id="signup_button_form">Sign up</div>
+    </div>
+</div>

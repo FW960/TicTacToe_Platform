@@ -1,0 +1,65 @@
+﻿@model TicTacToe_Platform.Views.Pages.AccountGamesModel
+
+@{ 
+}
+
+<div id="create_game_modal" style="display: none">
+    <div class="game_create_form">
+        <div class="close_game_modal">×</div>
+        <h3 class="create_game_elem create_game_header">Create Game</h3>
+        <label class="create_game_elem" for="game_name">Name:</label>
+        <input class="create_game_elem" id="game_name" type="text"/>
+        <label class="create_game_elem" for="game_password">Password (Optional):</label>
+        <input class="create_game_elem" id="game_password" type="password"/>
+        <p class="create_game_elem resp_elem" id="create_game_resp_message"></p>
+        <button class="create_game_elem reg_button" id="create_game">Create</button>
+    </div>
+    <a href="" id="hidden_create_game_elem" style="display: none" target="_blank"></a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (){
+
+        document.querySelector("#create_game").addEventListener("click", async function (e){
+            
+            e.stopImmediatePropagation();
+            
+            let gameNameElem = document.querySelector("#game_name");
+            
+            if (BaseValidateField(gameNameElem)){
+                return;
+            }
+                
+            let gamePassword = document.querySelector("#game_password").value;
+            
+            let headers = 
+            {
+                "Content-Type" : "application/json"
+            };
+            let body = {
+                GameName : gameNameElem.value,
+                GamePassword : gamePassword,
+                CreatorId : "@Html.Raw(Model.User.Id)"              
+            };
+            
+            let resp = await fetch("/Api/Games/Create", ConstructFetchBody("POST", headers, body));
+            
+            if (resp.ok){
+                
+                let hrefElem = document.querySelector("#hidden_create_game_elem");
+                
+                hrefElem.href = resp.headers.get("Redirect");
+                
+                hrefElem.click();
+                
+                document.querySelector(".close_game_modal").click();
+          
+            }else{
+                document.querySelector("#create_game_resp_message").textContent = await resp.text();
+            }
+            
+        })
+
+    })
+
+</script>

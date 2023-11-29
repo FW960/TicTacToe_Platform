@@ -1,0 +1,200 @@
+﻿@using TicTacToe_Platform.Models.Games
+
+@{
+    Layout = null;
+    var gameId = ViewBag.GameId as string;
+    var userId = ViewBag.UserId as string;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Game</title>
+    <link rel="stylesheet" href="/assets/css/stylesheet.css">
+</head>
+<body>
+<div class="game_wrapper">
+    <div>
+        <h2 class="game_player_info"></h2>
+        <div class="game_info">
+            <h2 class="game_turn">Waiting for opponent to join</h2>
+            <h2 class="game_timer"></h2>
+        </div>
+    </div>
+    <div class="game_field_chat_wrapper">
+        <div id="game_fields_wrapper">
+            <div x="0" y="0" class="game_field"></div>
+            <div x="1" y="0" class="game_field"></div>
+            <div x="2" y="0" class="game_field"></div>
+            <div x="0" y="1" class="game_field"></div>
+            <div x="1" y="1" class="game_field"></div>
+            <div x="2" y="1" class="game_field"></div>
+            <div x="0" y="2" class="game_field"></div>
+            <div x="1" y="2" class="game_field"></div>
+            <div x="2" y="2" class="game_field"></div>
+        </div>
+        <div id="chat_log"></div>
+    </div>
+</div>
+</body>
+</html>
+<script src="/assets/js/ElemsScript.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", async function(e){
+        let gameFieldsWrapper = document.querySelector("#game_fields_wrapper");
+        let gameFields = Array.from(document.querySelectorAll(".game_field"));
+        let playerIsZeroesElem = document.querySelector(".game_player_info");
+        let gameTurnElem = document.querySelector(".game_turn");
+        let gameTimer = document.querySelector(".game_timer");
+        let gameId = "@Html.Raw(gameId)";
+        let userId = "@Html.Raw(userId)";
+        let gameSessionInfos = [{},{}]; 
+        let userGameInfo = {};
+        let isUserTurn = false;
+        let timerId = 0;
+        gameFields.forEach(x => x.classList.add("disabled"));
+        let connection = new signalR.HubConnectionBuilder().withUrl("/gameSessionHub").build();
+        connection.serverTimeoutInMilliseconds = 1000000;
+        await connection.start();
+       
+        
+        connection.on("JoinGameSessionResponse", function (message){
+           WriteToChatLog(message); 
+        });
+        
+        connection.on("GameSessionStart", function (message){
+            gameSessionInfos = message;
+            
+            userGameInfo = gameSessionInfos.find(x => x.userId === userId);
+            
+            if (!userGameInfo.isZeroes){
+                gameTurnElem.textContent = "Your turn: ";
+                playerIsZeroesElem.textContent = `You playing as: X`;
+                WriteToChatLog("Your turn");
+                isUserTurn = true;
+                gameFields.forEach(x => x.classList.remove("disabled"));
+            }else{
+                gameTurnElem.textContent = "Opponent turn: ";
+                playerIsZeroesElem.textContent = `You playing as: 0`;
+                WriteToChatLog("Opponent turn");
+                isUserTurn = false;
+            }
+            StartTimer();
+        });
+        
+        connection.on("HandleGameSessionResponse", async function (message){
+            let gameTurn = message;
+            isUserTurn = gameTurn.currentUserIdTurn === userId;
+            
+            if (gameTurn.turnResult === 0){
+                AppendPostTurnDataToChatLog(gameTurn.x, gameTurn.y);
+                WriteToChatLog(isUserTurn ? "You lost" : "You won");
+            }
+            
+            if (gameTurn.turnResult === 1){
+                AppendPostTurnDataToChatLog(gameTurn.x, gameTurn.y);
+                WriteToChatLog("Draw");
+            }
+            
+            if (gameTurn.turnResult === 2){
+                WriteToChatLog(isUserTurn ? "You lost due inactivity" : "You won. Opponent have disconnected");
+            }
+            
+            if (gameTurn.turnResult === 4){
+                WriteToChatLog(`There was error processing ${(!isUserTurn ? "your turn" : "opponent turn")}`);
+            }
+            
+            let gameField = gameFields.find(x => parseInt(x.attributes.x.value) === gameTurn.x && parseInt(x.attributes.y.value) === gameTurn.y);
+            
+            if (gameField)
+                gameField.textContent = (() => {
+                    if (isUserTurn){
+                       return userGameInfo.isZeroes ? "X": "0";
+                    }else{
+                        return userGameInfo.isZeroes ? "0" :"X";
+                    }
+                })();
+            
+            if (gameTurn.turnResult === 0 || gameTurn.turnResult === 1 || gameTurn.turnResult === 2 || gameTurn.turnResult === 4){
+                
+                await connection.stop();
+                gameTurnElem.textContent = "Game have ended";
+                WriteToChatLog("Game have ended");
+                gameFieldsWrapper.classList.add("disabled_opacity");
+                gameTimer.textContent = "";
+                clearInterval(timerId);
+                return;
+            }
+            
+            if (gameTurn.turnResult === 3){
+                
+                AppendPostTurnDataToChatLog(gameTurn.x, gameTurn.y);
+                
+                if (!isUserTurn){
+                    gameFields.forEach(x => x.classList.add("disabled"));
+                    WriteToChatLog("Opponent turn");
+                    gameTurnElem.textContent = "Opponent turn: ";
+                    StartTimer();
+                }else{
+                    gameFields.forEach(x => {
+                        if (x.textContent === "")
+                            x.classList.remove("disabled");
+                    });
+                    WriteToChatLog("Your turn");
+                    gameTurnElem.textContent = "Your turn: ";
+                    StartTimer();
+                }
+                return;
+            }
+        });
+        
+        gameFields.forEach(x => x.addEventListener("click", async function (e){
+            if (e.currentTarget.classList.contains("disabled")){
+                return;
+            }
+            
+            let x = e.currentTarget.attributes.x.value;
+            let y = e.currentTarget.attributes.y.value;
+            
+            let gameSessionRequest = {
+                X : x,
+                Y : y,
+                GameId : gameId,
+                UserId : userId
+            }
+            
+            await connection.invoke("HandleGameSessionTurn", JSON.stringify(gameSessionRequest));
+            isUserTurn = false;
+        }));
+        
+        function StartTimer(){
+            gameTimer.textContent = "15";
+            
+            if (timerId !== 0)
+                clearInterval(timerId);
+            
+            timerId = setInterval(async function (){
+                let leftSeconds = parseInt(gameTimer.textContent);
+                leftSeconds--;
+                
+                if (leftSeconds < 0){
+                    await connection.stop();
+                    WriteToChatLog(isUserTurn ? "You lost due inactivity" : "You won. Opponent have disconnected");
+                    isUserTurn = false;
+                    gameTurnElem.textContent = isUserTurn ? "You lost due inactivity" : "You won. Opponent have disconnected";
+                    clearInterval(timerId);
+                    gameTimer.textContent = "";
+                    return;
+                }
+                
+                gameTimer.textContent = `${leftSeconds}`;
+                
+            }, 1000)
+        }
+
+        
+        await connection.invoke("JoinGameSession", gameId, userId);
+    })
+</script>

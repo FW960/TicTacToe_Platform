@@ -1,0 +1,38 @@
+﻿@using TicTacToe_Platform.Views.Pages
+@model object?
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="/assets/css/stylesheet.css">
+</head>
+<body>
+<header>
+    @if (Model is not null && Model.GetType() == typeof(SignUpLoginModel))
+    {
+        @Html.Partial("/Views/_Partials/_LoginHeader.cshtml")
+    }
+    else
+    {
+        @Html.Partial("/Views/_Partials/_Header.cshtml")
+    }
+</header>
+<main>
+    <div class="content_wrapper">
+        @RenderBody()
+    </div>
+</main>
+@if (Model is not null && Model.GetType() == typeof(AccountGamesModel))
+{
+    @Html.Partial("/Views/_Partials/_CreateGameModal.cshtml")
+}
+</body>
+<script src="/assets/js/ElemsScript.js"></script>
+<script src="/assets/js/ApiHelperScript.js"></script>
+</html>

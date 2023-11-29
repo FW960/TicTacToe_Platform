@@ -1,0 +1,90 @@
+﻿@using TicTacToe_Platform.Models.Games
+@model TicTacToe_Platform.Views.Pages.AccountGamesModel
+@{
+
+}
+
+@functions{
+
+    string GameResultToString(UserGameResult result, GameStatus gameStatus)
+    {
+        switch (result)
+        {
+            case UserGameResult.PlayerWon:
+                return gameStatus is GameStatus.PlayerDisconnected ? "Won, Opponent&nbsp;disconnected" : "Won";
+            case UserGameResult.Draw:
+                return "Draw";
+            case UserGameResult.PlayerDisconnected:
+                return "Disconnected";
+            case UserGameResult.Lost:
+                return "Lost";
+            case UserGameResult.NoResult:
+                return "No result";
+            default:
+                return "";
+        }
+    }
+
+}
+
+<div id="played_games_list">
+    <h2 class="logged_in_form_header">Games played:</h2>
+    @foreach (var playedGame in Model.UserPlayedGames)
+    {
+        var x = 0;
+        var y = 0;
+        var userGameInfo = playedGame.Value.UserGameInfos.First(x => x.UserId.Equals(Model.User.Id));
+
+        <div class="played_game">
+            <div class="played_game_fields">
+                @for (var i = 0; i < 9; i++)
+                {
+                    var turn = playedGame.Value.Turns.FirstOrDefault(turn => turn.YPlace == y && turn.XPlace == x);
+                    var symbol = "";
+
+                    if (turn is not null)
+                    {
+                        symbol = turn.IsZeroes ? "0" : "X";
+                    }
+
+                    <div class="played_game_field" x="@x" y="@y">@symbol</div>
+
+                    x++;
+
+                    if (x == 3)
+                    {
+                        x = 0;
+                        y++;
+                    }
+                }
+            </div>
+            <div class="game_statistic">
+                <p class="game_statistic_text">Played for: @(userGameInfo.IsZeroes ? "0" : "X")</p>
+                <p class="game_statistic_text">Game result:<br/> @Html.Raw(GameResultToString(userGameInfo.UserGameResult, playedGame.Value.GameStatus))</p>
+                <p class="game_statistic_text">Start time:<br/> @playedGame.Value.StartTime</p>
+                <p class="game_statistic_text">End time:<br/> @playedGame.Value.EndTime</p>
+                <div class="turns_statistic_wrapper">
+                    @foreach (var turn in playedGame.Value.Turns.OrderBy(x => x.TurnCount))
+                    {
+                        <p class="turn_count" x="@turn.XPlace" y="@turn.YPlace">Turn @turn.TurnCount: X-@(turn.XPlace + 1), Y-@(turn.YPlace + 1)</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <hr class="played_games_separator"/>
+    }
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function (e){
+        document.querySelectorAll(".turn_count").forEach(x => {
+            
+            let elem = Array.from(x.parentElement.parentElement.parentElement.querySelectorAll(".played_game_field")).find(y => y.attributes.x.value === x.attributes.x.value && y.attributes.y.value === x.attributes.y.value);
+            x.addEventListener("mouseover", function (e){
+                elem.classList.add("played_game_field_hover");
+            })
+            x.addEventListener("mouseout", function (e){
+                elem.classList.remove("played_game_field_hover");
+            })
+        })
+    })
+</script>

@@ -1,0 +1,2 @@
+obj\Debug\net6.0\Protos/GameSessionService.cs \
+obj\Debug\net6.0\Protos/GameSessionServiceGrpc.cs: Protos/GameSessionService.proto

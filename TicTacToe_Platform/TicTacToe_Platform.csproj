@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.21" />
+      <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+      <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
+      <PackageReference Include="Grpc.Net.Client" Version="2.59.0" />
+      <PackageReference Include="Grpc.Tools" Version="2.60.0-pre1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.24" />
+      <PackageReference Include="microsoft.aspnetcore.signalr" Version="1.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.25" />
+      <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />
+      <PackageReference Include="MySql.Data" Version="8.2.0" />
+      <PackageReference Include="MySqlConnector" Version="2.3.0-beta.4" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Pages\SignUpLoginModel.cs">
+        <DependentUpon>SignUpLoginPage.cshtml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\Pages\AccountGamesModel.cs">
+        <DependentUpon>AccountGamesPage.cshtml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\assets\js\grpc\GameSessionService_grpc_web_pb.js" />
+      <None Include="wwwroot\assets\js\grpc\GameSessionService_pb.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\grpc\grpc-web\index.d.ts" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\grpc\grpc-web\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\grpc\grpc-web\package.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\grpc\grpc-web\protoc-gen-grpc-web-1.5.0-windows-x86_64.exe" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\grpc\grpc-web\README.md" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = TicTacToe_Platform
+build_property.RootNamespace = TicTacToe_Platform
+build_property.ProjectDir = C:\Users\windo\RiderProjects\TicTacToe_Platform\TicTacToe_Platform\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = C:\Users\windo\RiderProjects\TicTacToe_Platform\TicTacToe_Platform
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/Layouts/Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGF5b3V0c1xMYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/Pages/AccountGamesPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcQWNjb3VudEdhbWVzUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/Pages/GamePage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcR2FtZVBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/Pages/SignUpLoginPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFnZXNcU2lnblVwTG9naW5QYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/_Partials/_AccountStatistics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1BhcnRpYWxzXF9BY2NvdW50U3RhdGlzdGljcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/_Partials/_AvailableGamesList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1BhcnRpYWxzXF9BdmFpbGFibGVHYW1lc0xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/_Partials/_CreateGameModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1BhcnRpYWxzXF9DcmVhdGVHYW1lTW9kYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/_Partials/_Header.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1BhcnRpYWxzXF9IZWFkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/_Partials/_LoginHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1BhcnRpYWxzXF9Mb2dpbkhlYWRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/windo/RiderProjects/TicTacToe_Platform/TicTacToe_Platform/Views/_Partials/_PlayedGamesList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1BhcnRpYWxzXF9QbGF5ZWRHYW1lc0xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,101 @@
+﻿@model TicTacToe_Platform.Views.Pages.SignUpLoginModel
+
+@{
+    Layout = "/Views/Layouts/Layout.cshtml";
+}
+
+<div class="login_signup_forms_wrapper">
+    <div id="login_form" class="login_signup_form" style="@Html.Raw(Model.IsLogin ? "display: flex" : "display: none")">
+        <label class="login_signup_form_elem" for="login_data">Login: </label>
+        <input class="login_signup_form_elem" type="text" id="login_data"/>
+        <label class="login_signup_form_elem" for="login_password">Password: </label>
+        <input class="login_signup_form_elem" type="password" id="login_password"/>
+        <p class="login_signup_form_elem resp_elem" id="login_resp_message"></p>
+        <button class="login_signup_form_elem reg_button" id="login">Login</button>
+    </div>
+    <div id="signup_form" class="login_signup_form" style="@Html.Raw(Model.IsLogin ? "display: none" : "display: flex")">
+        <label class="login_signup_form_elem" for="signup_login">Login: </label>
+        <input class="login_signup_form_elem" type="text" id="signup_login"/>
+        <label class="login_signup_form_elem" for="signup_password">Password: </label>
+        <input class="login_signup_form_elem" type="password" id="signup_password"/>
+        <label class="login_signup_form_elem" for="signup_password_confirm">Password confirm: </label>
+        <input class="login_signup_form_elem" type="password" id="signup_password_confirm"/>
+        <p class="login_signup_form_elem resp_elem" id="signup_resp_message"></p>
+        <button class="login_signup_form_elem reg_button" id="signup">Sign Up</button>
+    </div>
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function (e) {
+    document.querySelector("#signup").addEventListener("click", async function (e) {
+
+        e.stopImmediatePropagation();
+        this.classList.add("disabled");
+        
+        let signUpElem = document.querySelector("#signup_login");
+
+        let passwordElem = document.querySelector("#signup_password");
+
+        let confirmPasswordElem = document.querySelector("#signup_password_confirm");
+
+        if (ValidateSignUpData(signUpElem, passwordElem, confirmPasswordElem)) {
+            this.classList.remove("disabled");
+            return;
+        }
+
+        let body = {
+            Login: signUpElem.value,
+            Password: passwordElem.value,
+            PasswordConfirm: confirmPasswordElem.value
+        };
+
+        let resp = await fetch("/Api/Users/SignUp", ConstructFetchBody("POST", {}, body));
+
+        this.classList.remove("disabled");
+        if (resp.ok) {
+            if (resp.headers.has("Redirect")) {
+                window.location.href = resp.headers.get("Redirect");
+            } else {
+                window.location.href = "/account";
+            }
+        } else {
+            document.querySelector("#signup_resp_message").textContent = await resp.text();
+        }
+    })
+
+
+    document.querySelector("#login").addEventListener("click", async function (e) {
+
+        e.stopImmediatePropagation();
+        this.classList.add("disabled");
+        
+        let loginElem = document.querySelector("#login_data");
+
+        let passwordElem = document.querySelector("#login_password");
+
+        if (ValidateLoginData(loginElem, passwordElem)) {
+            this.classList.remove("disabled");
+            return;
+        }
+
+        let body = {
+            Login: loginElem.value,
+            Password: passwordElem.value
+        };
+
+        let resp = await fetch("/Api/Users/Login", ConstructFetchBody("POST", {}, body));
+
+        this.classList.remove("disabled");
+        if (resp.ok) {
+            if (resp.headers.has("Redirect")) {
+                window.location.href = resp.headers.get("Redirect");
+            } else {
+                window.location.href = "/account";
+            }
+        } else {
+            document.querySelector("#login_resp_message").textContent = await resp.text();
+        }
+    })
+})
+</script>

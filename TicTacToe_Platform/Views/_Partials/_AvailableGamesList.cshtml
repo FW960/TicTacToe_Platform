@@ -1,0 +1,60 @@
+﻿@model TicTacToe_Platform.Views.Pages.AccountGamesModel
+
+@{
+
+}
+
+<div class="available_games_list">
+    @foreach (var game in Model.AvailableGames)
+    {
+        if(game.CreatorId.Equals(Model.User.Id))
+            continue;
+        
+        <div class="available_game_wrapper">
+            <div class="game_name available_game_elem">@game.GameName</div>
+            @if (!string.IsNullOrEmpty(game.GamePassword))
+            {
+                <label class="available_game_elem" for="game_password_@Html.Raw(game.Id)">Enter game password:</label>
+                <input type="password" class="game_password available_game_elem" id="game_password_@Html.Raw(game.Id)"/>
+            }
+            <button havePassword="@Html.Raw(string.IsNullOrEmpty(game.GamePassword) ? "false" : "true")" gameId="@Html.Raw(game.Id)" id="join_@Html.Raw(game.Id)" class="reg_button join_button available_game_elem">Join</button>
+        </div>
+    }
+    <a href="" id="hidden_create_join_game_elem" style="display: none" target="_blank"></a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (e){
+        document.querySelectorAll(".join_button").forEach(x => {
+            x.addEventListener("click", async function (e){
+                
+                let gameId = x.attributes.gameId.value;
+                let passwordElem = document.querySelector(`#game_password_${gameId}`);
+                
+                
+                let password = "";
+                
+                if (passwordElem !== null){
+                    
+                    if (!BaseValidateField(passwordElem)){
+                        password = passwordElem.value;
+                    }else{
+                        return;
+                    }
+                }
+                
+                let gameUrl = `/game?id=${gameId}`;
+                
+                if (password !== "" && password !== null){
+                    gameUrl += `&p=${password}`;
+                }
+                
+                let hrefElem = document.querySelector("#hidden_create_join_game_elem");
+                hrefElem.href = gameUrl;
+                
+                hrefElem.click();
+            })
+        })
+    })
+
+</script>

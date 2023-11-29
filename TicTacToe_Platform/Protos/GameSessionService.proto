@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "TicTacToe_Platform";
+
+package GameSessionManager;
+
+// The greeting service definition.
+service GameSessionManager {
+  // Sends a greeting
+  rpc GameTurn (stream GameSessionRequest) returns (stream GameSessionResponse);
+}
+
+
+// The request message containing the user's name.
+message GameSessionRequest {
+  int32 x = 1;
+  int32 y = 2;
+  string GameId = 3;
+  string UserId = 4;
+}
+
+// The response message containing the greetings.
+message GameSessionResponse {
+  int32 turnResult = 1;
+  int32  x = 2;
+  int32 y = 3;
+  bool yourTurn = 4;
+}

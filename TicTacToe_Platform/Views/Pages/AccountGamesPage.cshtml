@@ -1,0 +1,17 @@
+﻿@model TicTacToe_Platform.Views.Pages.AccountGamesModel
+
+@{
+    Layout = "/Views/Layouts/Layout.cshtml";
+}
+
+<div class="account_games_wrapper">
+    <div id="games_form" class="logged_in_form" style="@Html.Raw(Model.IsGames ? "display:flex" : "display:none")">
+        <h2 class="logged_in_form_header">Available games:</h2>
+        @Html.Partial("/Views/_Partials/_AvailableGamesList.cshtml")
+    </div>
+    <div id="account_statistics" class="logged_in_form" style="@Html.Raw(Model.IsGames ? "display:none" : "display:flex")">
+        @Html.Partial("/Views/_Partials/_AccountStatistics.cshtml")
+        @Html.Partial("/Views/_Partials/_PlayedGamesList.cshtml")
+    </div>
+</div>
+

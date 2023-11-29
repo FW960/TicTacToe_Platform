@@ -1,0 +1,15 @@
+﻿@using TicTacToe_Platform.Models.Games
+@model TicTacToe_Platform.Views.Pages.AccountGamesModel
+
+@{
+    
+}
+
+<div class="account_statistics_wrapper">
+    <h2 class="logged_in_form_header">Statistics:</h2>
+    <p>Games played: @Model.UserPlayedGames.Count</p>
+    <p>Won: @Model.UserPlayedGames.Count(x => Model.User.Id.Equals(x.Value.WinnerId, StringComparison.Ordinal))</p>
+    <p>Draws: @Model.UserPlayedGames.Count(x => x.Value.GameStatus == GameStatus.Draw)</p>
+    <p>Lost: @Model.UserPlayedGames.Count(x => !Model.User.Id.Equals(x.Value.WinnerId, StringComparison.OrdinalIgnoreCase) && x.Value.GameStatus is not (GameStatus.Draw or GameStatus.PlayerDisconnected))</p>
+    <p>Disconnected: @Model.UserPlayedGames.Count(x => !Model.User.Id.Equals(x.Value.WinnerId, StringComparison.OrdinalIgnoreCase) && x.Value.GameStatus is GameStatus.PlayerDisconnected)</p>
+</div>

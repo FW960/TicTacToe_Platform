@@ -1,0 +1,397 @@
+* {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  overflow-x: hidden !important;
+}
+
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin: 20px 0;
+  background: #0783d7;
+  border-radius: 8px;
+
+}
+
+.header_buttons_wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  height: 50px;
+  align-items: center;
+}
+
+.header_login_button {
+  cursor: pointer;
+  max-width: 100px;
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  text-decoration: underline;
+  transition: 0.3s ease-in-out;
+}
+
+.header_buttons_divider {
+  height: 30px;
+  color: black;
+  background: white;
+  width: 1.5px;
+}
+
+.header_login_button:hover {
+  color: black;
+}
+
+.login_signup_form {
+  display: flex;
+  flex-direction: column;
+  max-width: 25%;
+  padding: 50px 30px;
+  margin: 0 auto;
+}
+
+.login_signup_form input {
+  padding: 3px 10px;
+}
+
+.login_signup_form input:focus {
+  color: initial;
+  border-width: 1px;
+}
+
+.login_signup_form_elem {
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border-collapse: collapse;
+  border-width: 1px;
+}
+
+.login_signup_form .login_signup_form_elem:last-child {
+  margin-bottom: 0;
+}
+
+.active_menu {
+  color: black;
+}
+
+.data_validation_error {
+  border: 1px solid red !important;
+}
+
+.resp_elem {
+  color: red;
+  text-align: center;
+}
+
+.logged_in_form_header {
+  text-align: center;
+}
+
+.logged_in_form {
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.header_buttons_wrapper_logged_in {
+
+}
+
+#create_game_modal {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #00000042;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.game_create_form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.game_create_form button {
+  border-radius: 8px;
+}
+
+.game_create_form input {
+  border-radius: 8px;
+  padding: 3px 10px;
+  border: 1px solid black;
+}
+
+.create_game_elem {
+  margin-bottom: 10px;
+}
+
+#create_game {
+  margin-top: 20px;
+}
+
+.create_game_header {
+  text-align: center;
+}
+
+.close_game_modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 25px;
+  padding-right: 6px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  color: rgba(0, 0, 0, 0.63);
+}
+
+.close_game_modal:hover {
+  color: black;
+}
+
+.reg_button {
+  color: white;
+  background-color: #0783d7;
+  padding: 3px;
+  border-radius: 8px;
+  border: 0;
+  transition: 0.3s ease-in-out;
+  font-size: 16px;
+}
+
+.reg_button:hover {
+
+  background-color: #0773b9;
+  cursor: pointer;
+}
+
+#account_statistics {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.account_statistics_wrapper {
+  text-align: center;
+  width: 49.5%;
+  border-right: 1px solid black;
+}
+
+.account_statistics_wrapper p {
+  margin-top: 10px;
+}
+
+.account_statistics_wrapper p:first-child {
+  margin-top: 5px;
+}
+
+#played_games_list {
+  width: 49.5%;
+  max-height: 500px;
+  overflow-y: auto;
+  border-left: 1px solid black;
+}
+
+.game_statistic_separator {
+  width: 1.5px;
+  border: 0;
+  background-color: #a4a4a4;
+}
+
+.available_game_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+
+}
+
+.available_games_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.available_game_elem {
+  margin-bottom: 10px;
+}
+
+.available_game_wrapper .available_game_elem:last-child {
+  margin-bottom: 0;
+}
+
+.available_game_wrapper {
+  margin-top: 50px;
+  width: 33%;
+  padding: 20px 50px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 8px;
+  min-height: 161px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game_name {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.game_password {
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+.disabled_opacity {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.content_wrapper {
+  padding-bottom: 20px;
+}
+
+.overflow_hidden {
+  overflow: hidden;
+}
+
+#game_fields_wrapper {
+  display: flex;
+  width: 600px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 600px;;
+}
+
+.game_field {
+  width: 33%;
+  height: 33%;
+  border: 1px solid;
+  border-collapse: collapse;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.game_wrapper {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game_info {
+  margin: 30px 0;
+  display: flex;
+}
+
+.game_field:hover {
+  background-color: #00000024;
+}
+.played_game_field_hover{
+  background-color: #00000024;
+}
+
+.disabled:hover {
+  background-color: initial;
+}
+
+.disabled_opacity:hover {
+  background-color: initial;
+}
+
+.game_field_chat_wrapper {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#chat_log {
+  width: 300px;
+  border: 1px solid black;
+  height: 600px;
+  overflow-y: auto;
+}
+
+.log {
+  padding: 20px;
+  font-weight: 600;
+}
+
+.game_player_info {
+  margin: 30px 0;
+}
+
+.game_info {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.game_wrapper {
+  margin-bottom: 30px;
+}
+
+.played_game_fields {
+  display: flex;
+  width: 300px;
+  flex-wrap: wrap;
+  height: 300px;
+}
+
+.played_game_field {
+  width: 33%;
+  font-size: 30px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.played_game {
+  display: flex;
+  padding: 20px 0;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.game_statistic_text {
+  padding: 10px 0;
+}
+
+.turn_count {
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.played_games_separator {
+  width: 90%;
+  margin: 0 auto;
+  background-color: black;
+  height: 1px;
+}
+.game_statistic{
+  width: 30%;
+}
